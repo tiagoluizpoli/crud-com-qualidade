@@ -1,0 +1,17 @@
+{
+  "todos": [
+    {
+      "id": "21be7f87-39bf-4d9c-bd0c-768129f2162f",
+      "checked": false,
+      "date": "2023-08-12T04:54:20.104Z",
+      "content": "Primeira TODO"
+    },
+    {
+      "id": "c8b1f9e9-9155-4652-b026-6d3fd71f2d38",
+      "checked": false,
+      "date": "2023-08-12T04:54:20.104Z",
+      "content": "Segunda TODO"
+    }
+  ],
+  "togs": []
+}
