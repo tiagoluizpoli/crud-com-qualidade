@@ -13,22 +13,20 @@ async function get({
     page,
     limit,
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> {
-    return fetch('/api/todos').then(async (succ) => {
-        const todoString = await succ.text()
-        const todosFromServer = parseTodosFromServer(
-            JSON.parse(todoString)
-        ).todos
-        const startIndex = (page - 1) * limit
-        const endIndex = page * limit
-        const paginatedTudos = todosFromServer.slice(startIndex, endIndex)
-        const totalPages = Math.ceil(todosFromServer.length / limit)
+    return fetch(`/api/todos?page=${page}&limit=${limit}`).then(
+        async (succ) => {
+            const todoString = await succ.text()
+            const { todos, pages, total } = parseTodosFromServer(
+                JSON.parse(todoString)
+            )
 
-        return {
-            todos: paginatedTudos,
-            total: todosFromServer.length,
-            pages: totalPages,
+            return {
+                todos,
+                total,
+                pages,
+            }
         }
-    })
+    )
 }
 
 export const todoRepository = {
@@ -42,17 +40,25 @@ interface Todo {
     done: boolean
 }
 
-function parseTodosFromServer(responseBody: unknown) {
+function parseTodosFromServer(responseBody: unknown): {
+    todos: Array<Todo>
+    total: number
+    pages: number
+} {
     if (
         responseBody !== null &&
         typeof responseBody === 'object' &&
         'todos' in responseBody &&
+        'total' in responseBody &&
+        'pages' in responseBody &&
         Array.isArray(responseBody.todos)
     ) {
         return {
+            total: Number(responseBody.total),
+            pages: Number(responseBody.pages),
             todos: responseBody.todos.map((todo: unknown) => {
                 if (todo === null && typeof todo !== 'object') {
-                    throw new Error('Invalid todo from api')
+                    throw new Error('Invalid todo from API')
                 }
                 const { id, content, date, done } = todo as {
                     id: string
@@ -71,5 +77,7 @@ function parseTodosFromServer(responseBody: unknown) {
     }
     return {
         todos: [],
+        pages: 1,
+        total: 0,
     }
 }
