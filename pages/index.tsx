@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GlobalStyles } from '@/ui/theme/GlobalStyles'
 import { todoController } from '@/ui/controller/todo'
 
@@ -10,7 +10,7 @@ interface HomeTodo {
     content: string
 }
 function HomePage() {
-    const [initialLoadCompleate, setInitialLoadCompleate] = useState(false)
+    const initialLoadCompleate = useRef(false)
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState('')
@@ -22,8 +22,7 @@ function HomePage() {
     const hasNoTodos = homeTodos.length === 0 && !isLoading
 
     useEffect(() => {
-        setInitialLoadCompleate(true)
-        if (!initialLoadCompleate) {
+        if (!initialLoadCompleate.current) {
             todoController
                 .get({ page })
                 .then(({ todos, pages }) => {
@@ -32,6 +31,7 @@ function HomePage() {
                 })
                 .finally(() => {
                     setIsLoading(false)
+                    initialLoadCompleate.current = true
                 })
         }
     }, [])
@@ -45,7 +45,7 @@ function HomePage() {
                 }}
             >
                 <div className='typewriter'>
-                    <h1>O que fazer hoje? 3</h1>
+                    <h1>O que fazer hoje?</h1>
                 </div>
                 <form>
                     <input type='text' placeholder='Correr, Estudar...' />
