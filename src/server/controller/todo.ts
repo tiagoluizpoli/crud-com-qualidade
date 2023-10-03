@@ -1,8 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { todoRepository } from '../repository'
+import { z } from 'zod'
 
+const TodoCreateBodySchema = z.object({
+    content: z.string(),
+})
 const create = async (req: NextApiRequest, res: NextApiResponse) => {
-    const createdTodo = await todoRepository.createContent(req.body.content)
+    const parsedBody = TodoCreateBodySchema.safeParse(req.body)
+    if (!parsedBody.success) {
+        res.status(400).json({
+            message: 'an error has occurred',
+            error: parsedBody.error,
+        })
+        return
+    }
+    const createdTodo = await todoRepository.createContent(
+        parsedBody.data.content
+    )
     res.status(201).json({
         todo: createdTodo,
     })
