@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { todoRepository } from '../repository'
 
+const create = async (req: NextApiRequest, res: NextApiResponse) => {
+    const createdTodo = await todoRepository.createContent(req.body.content)
+    res.status(201).json({
+        todo: createdTodo,
+    })
+}
+
 const get = (req: NextApiRequest, res: NextApiResponse) => {
     const query = req.query
     const page = Number(query.page)
@@ -31,4 +38,5 @@ const get = (req: NextApiRequest, res: NextApiResponse) => {
 
 export const todoController = {
     get,
+    create,
 }
