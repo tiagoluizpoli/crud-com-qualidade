@@ -31,7 +31,7 @@ module.exports = {
             'error',
             {
                 endOfLine: 'auto',
-                printWidth: 80,
+                printWidth: 100,
                 semi: true,
                 doubleQuote: false,
                 jsxSingleQuote: true,
