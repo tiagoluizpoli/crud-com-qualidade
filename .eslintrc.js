@@ -32,8 +32,7 @@ module.exports = {
             {
                 endOfLine: 'auto',
                 printWidth: 80,
-                trailingComma: 'es5',
-                semi: false,
+                semi: true,
                 doubleQuote: false,
                 jsxSingleQuote: true,
                 singleQuote: true,
@@ -42,4 +41,4 @@ module.exports = {
             },
         ],
     },
-}
+};

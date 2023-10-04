@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const basePadding = '5%'
-const breakpoint = '850px'
+const basePadding = '5%';
+const breakpoint = '850px';
 
 const pallete = {
     indigo: {
@@ -52,15 +52,15 @@ const pallete = {
         x800: '#323F4B',
         x900: '#1F2933',
     },
-}
-type ThemeName = keyof typeof pallete
+};
+type ThemeName = keyof typeof pallete;
 
 export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
     const theme = {
         primary: pallete[themeName || 'indigo'],
         negative: pallete.red,
         neutral: pallete.coolGrey,
-    }
+    };
 
     return (
         <style jsx global>
@@ -70,26 +70,29 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
                     --color-basic-dark: #000;
                     --color-basic-transparent: transparent;
                     ${Object.keys(theme.neutral)
-                    .map(
-                        (key) => `
-            --color-primary-${key}: ${theme.primary[key as keyof typeof theme.primary]
-                            };`
-                    )
-                    .join('')}
+                        .map(
+                            (key) => `
+            --color-primary-${key}: ${
+                theme.primary[key as keyof typeof theme.primary]
+            };`,
+                        )
+                        .join('')}
                     ${Object.keys(theme.neutral)
-                    .map(
-                        (key) => `
-            --color-neutral-${key}: ${theme.neutral[key as keyof typeof theme.neutral]
-                            };`
-                    )
-                    .join('')}
+                        .map(
+                            (key) => `
+            --color-neutral-${key}: ${
+                theme.neutral[key as keyof typeof theme.neutral]
+            };`,
+                        )
+                        .join('')}
             ${Object.keys(theme.negative)
-                    .map(
-                        (key) => `
-              --color-negative-${key}: ${theme.negative[key as keyof typeof theme.negative]
-                            };`
-                    )
-                    .join('')}
+                        .map(
+                            (key) => `
+              --color-negative-${key}: ${
+                  theme.negative[key as keyof typeof theme.negative]
+              };`,
+                        )
+                        .join('')}
                 }
                 * {
                     margin: 0;
@@ -403,5 +406,5 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
                 }
             `}
         </style>
-    )
+    );
 }

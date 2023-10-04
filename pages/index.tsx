@@ -1,41 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { GlobalStyles } from '@/ui/theme/GlobalStyles'
-import { todoController } from '@/ui/controller/todo'
+import React, { useEffect, useRef, useState } from 'react';
+import { GlobalStyles } from '@/ui/theme/GlobalStyles';
+import { todoController } from '@/ui/controller/todo';
 
 // const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
-const bg = '/bg.jpeg' // inside public folder
+const bg = '/bg.jpeg'; // inside public folder
 
 interface HomeTodo {
-    id: string
-    content: string
+    id: string;
+    content: string;
 }
 function HomePage() {
-    const initialLoadCompleate = useRef(false)
-    const [newTodoContent, setNewTodoContent] = useState<string>('')
-    const [totalPages, setTotalPages] = useState(0)
-    const [page, setPage] = useState(1)
-    const [search, setSearch] = useState('')
-    const [isLoading, setIsLoading] = useState(true)
-    const [todos, setTodos] = useState<HomeTodo[]>([])
-    const homeTodos = todoController.filterByContent<HomeTodo>(search, todos)
+    const initialLoadCompleate = useRef(false);
+    const [newTodoContent, setNewTodoContent] = useState<string>('');
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [todos, setTodos] = useState<HomeTodo[]>([]);
+    const homeTodos = todoController.filterByContent<HomeTodo>(search, todos);
 
-    const hasMorePages = totalPages > page
-    const hasNoTodos = homeTodos.length === 0 && !isLoading
+    const hasMorePages = totalPages > page;
+    const hasNoTodos = homeTodos.length === 0 && !isLoading;
 
     useEffect(() => {
         if (!initialLoadCompleate.current) {
             todoController
                 .get({ page })
                 .then(({ todos, pages }) => {
-                    setTodos(todos)
-                    setTotalPages(pages)
+                    setTodos(todos);
+                    setTotalPages(pages);
                 })
                 .finally(() => {
-                    setIsLoading(false)
-                    initialLoadCompleate.current = true
-                })
+                    setIsLoading(false);
+                    initialLoadCompleate.current = true;
+                });
         }
-    }, [])
+    }, []);
 
     return (
         <main>
@@ -50,21 +50,22 @@ function HomePage() {
                 </div>
                 <form
                     onSubmit={(event) => {
-                        event.preventDefault()
+                        event.preventDefault();
                         todoController.create({
                             content: newTodoContent,
-                            onError: () => {
+                            onError: (customMessage) => {
                                 alert(
-                                    'You need a content in order to create a freaking todo, piece of rose!'
-                                )
+                                    customMessage ||
+                                        'You need a content in order to create a freaking todo, piece of rose!',
+                                );
                             },
                             onSuccess: (todo: HomeTodo) => {
                                 setTodos((previousTodos) => {
-                                    return [todo, ...previousTodos]
-                                })
-                                setNewTodoContent('')
+                                    return [todo, ...previousTodos];
+                                });
+                                setNewTodoContent('');
                             },
-                        })
+                        });
                     }}
                 >
                     <input
@@ -72,7 +73,7 @@ function HomePage() {
                         value={newTodoContent}
                         placeholder='Correr, Estudar...'
                         onChange={(event) => {
-                            setNewTodoContent(event.target.value)
+                            setNewTodoContent(event.target.value);
                         }}
                     />
                     <button type='submit' aria-label='Adicionar novo item'>
@@ -87,8 +88,8 @@ function HomePage() {
                         type='text'
                         placeholder='Filtrar lista atual, ex: Dentista'
                         onChange={(event) => {
-                            const search = event.target.value
-                            setSearch(search)
+                            const search = event.target.value;
+                            setSearch(search);
                         }}
                     />
                 </form>
@@ -120,7 +121,7 @@ function HomePage() {
                                         </button>
                                     </td>
                                 </tr>
-                            )
+                            );
                         })}
 
                         {isLoading && (
@@ -153,9 +154,9 @@ function HomePage() {
                                     <button
                                         data-type='load-more'
                                         onClick={() => {
-                                            setIsLoading(true)
-                                            const nextPage = page + 1
-                                            setPage(nextPage)
+                                            setIsLoading(true);
+                                            const nextPage = page + 1;
+                                            setPage(nextPage);
                                             todoController
                                                 .get({ page: nextPage })
                                                 .then(({ todos, pages }) => {
@@ -164,14 +165,14 @@ function HomePage() {
                                                             return [
                                                                 ...previousTodos,
                                                                 ...todos,
-                                                            ]
-                                                        }
-                                                    )
-                                                    setTotalPages(pages)
+                                                            ];
+                                                        },
+                                                    );
+                                                    setTotalPages(pages);
                                                 })
                                                 .finally(() => {
-                                                    setIsLoading(false)
-                                                })
+                                                    setIsLoading(false);
+                                                });
                                         }}
                                     >
                                         Página {page} Carregar mais{' '}
@@ -192,7 +193,7 @@ function HomePage() {
                 </table>
             </section>
         </main>
-    )
+    );
 }
 
-export default HomePage
+export default HomePage;
