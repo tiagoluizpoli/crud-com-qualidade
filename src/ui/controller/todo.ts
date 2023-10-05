@@ -56,9 +56,15 @@ const toggleDone = async ({ id, updateTodoOnScreen, onError }: TodoControllerTog
     onError();
   }
 };
+
+const deleteById = async (id: string) => {
+  todoRepository.deleteById(id);
+};
+
 export const todoController = {
   get,
   filterByContent,
   create,
   toggleDone,
+  deleteById,
 };
