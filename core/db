@@ -95,24 +95,6 @@
       "date": "2023-10-03T23:07:31.612Z",
       "content": "PIRULETA",
       "done": true
-    },
-    {
-      "id": "3c83bc34-63be-41ae-a616-eba73251f810",
-      "date": "2023-10-03T23:08:00.718Z",
-      "content": "CRIAR NOVA TODO",
-      "done": false
-    },
-    {
-      "id": "5aaa9a39-976d-4814-af46-183008900e46",
-      "date": "2023-10-04T00:05:13.391Z",
-      "content": "BLAW",
-      "done": false
-    },
-    {
-      "id": "4869a70b-bd37-4eb6-8b6b-065a9f97c903",
-      "date": "2023-10-04T00:12:56.659Z",
-      "content": "bicicleta",
-      "done": false
     }
   ]
 }
