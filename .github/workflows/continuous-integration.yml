@@ -11,5 +11,8 @@ jobs:
         steps:
             ## Common ci steps
             - uses: actions/checkout@v3
+            # ===============================
+            - name: "Debug"
+              run: "ls -la"
             - name: "Lint"
               run: "yarn lint"
