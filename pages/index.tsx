@@ -70,9 +70,10 @@ function HomePage() {
           }}
         >
           <input
+            name='add-todo'
             type='text'
-            value={newTodoContent}
             placeholder='Correr, Estudar...'
+            value={newTodoContent}
             onChange={(event) => {
               setNewTodoContent(event.target.value);
             }}
@@ -121,7 +122,10 @@ function HomePage() {
                           updateTodoOnScreen: (updatedTodo?: HomeTodo) => {
                             setTodos((currentTodos) => {
                               return currentTodos.map((currentTodo) => {
-                                if (updatedTodo && currentTodo.id === updatedTodo.id) {
+                                if (
+                                  updatedTodo &&
+                                  currentTodo.id === updatedTodo.id
+                                ) {
                                   return {
                                     ...currentTodo,
                                     done: updatedTodo.done,
@@ -145,7 +149,9 @@ function HomePage() {
                     />
                   </td>
                   <td>{todo.id.substring(0, 4)}</td>
-                  <td>{!todo.done ? <>{todo.content}</> : <s>{todo.content}</s>}</td>
+                  <td>
+                    {!todo.done ? <>{todo.content}</> : <s>{todo.content}</s>}
+                  </td>
                   <td align='right'>
                     <button
                       data-type='delete'

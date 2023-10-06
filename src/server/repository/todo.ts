@@ -1,4 +1,9 @@
-import { read, create, update, deleteById as dbDeleteById } from '@/db-crud-todo';
+import {
+  read,
+  create,
+  update,
+  deleteById as dbDeleteById,
+} from '@/db-crud-todo';
 import { HttpNotFoundError } from '../infra';
 
 interface TodoRepositoryGetParams {
@@ -11,7 +16,10 @@ interface TodoRepositoryGetOutput {
   pages: number;
 }
 
-const get = ({ page, limit }: TodoRepositoryGetParams = {}): TodoRepositoryGetOutput => {
+const get = ({
+  page,
+  limit,
+}: TodoRepositoryGetParams = {}): TodoRepositoryGetOutput => {
   const currentPage = page || 2;
   const currentLimit = limit || 2;
   const allTodos = read().reverse();

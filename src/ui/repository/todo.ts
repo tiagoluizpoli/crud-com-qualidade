@@ -12,10 +12,15 @@ interface TodoRepositoryGetOutput {
   pages: number;
 }
 
-const get = ({ page, limit }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> => {
+const get = ({
+  page,
+  limit,
+}: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> => {
   return fetch(`/api/todos?page=${page}&limit=${limit}`).then(async (succ) => {
     const todoString = await succ.text();
-    const { todos, pages, total } = parseTodosFromServer(JSON.parse(todoString));
+    const { todos, pages, total } = parseTodosFromServer(
+      JSON.parse(todoString),
+    );
 
     return {
       todos,
