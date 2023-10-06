@@ -9,5 +9,7 @@ jobs:
     lint:
         runs-on: ubuntu-latest
         steps:
+            ## Common ci steps
+            - uses: actions/checkout@v3
             - name: "Lint"
               run: "yarn lint"
