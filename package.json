@@ -1,43 +1,47 @@
 {
-    "name": "crud-com-qualidade",
-    "version": "1.0.0",
-    "description": "Projeto criando um crud com qualidade",
-    "main": "index.js",
-    "scripts": {
-        "start:crud": "npx ts-node ./core/crud.ts",
-        "dev:crud": "nodemon --ext ts,tsx --exec 'yarn start'",
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "eslint './**/*.{jsx,jsx,ts,tsx}'",
-        "lint:fix": "yarn lint --fix",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@types/node": "^20.4.9",
-        "@types/react": "18.2.20",
-        "@types/uuid": "^9.0.2",
-        "@typescript-eslint/eslint-plugin": "^6.7.0",
-        "@typescript-eslint/parser": "^6.7.0",
-        "eslint": "^8.49.0",
-        "eslint-config-prettier": "^9.0.0",
-        "eslint-plugin-import": "^2.28.1",
-        "eslint-plugin-n": "^16.1.0",
-        "eslint-plugin-prettier": "^5.0.0",
-        "eslint-plugin-promise": "^6.1.1",
-        "eslint-plugin-react": "^7.33.2",
-        "nodemon": "^3.0.1",
-        "prettier": "^3.0.3"
-    },
-    "dependencies": {
-        "next": "^13.4.19",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "typescript": "^5.1.6",
-        "uuid": "^9.0.0",
-        "zod": "^3.22.2"
-    }
+  "name": "crud-com-qualidade",
+  "version": "1.0.0",
+  "description": "Projeto criando um crud com qualidade",
+  "main": "index.js",
+  "scripts": {
+    "start:crud": "npx ts-node ./core/crud.ts",
+    "dev:crud": "nodemon --ext ts,tsx --exec 'yarn start'",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint './**/*.{jsx,jsx,ts,tsx}'",
+    "lint:fix": "yarn lint --fix",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test dev http://localhost:3000 cy:run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.9",
+    "@types/react": "18.2.20",
+    "@types/uuid": "^9.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "cypress": "^13.3.0",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.33.2",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "start-server-and-test": "^2.0.1"
+  },
+  "dependencies": {
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.1.6",
+    "uuid": "^9.0.0",
+    "zod": "^3.22.2"
+  }
 }
