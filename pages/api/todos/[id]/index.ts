@@ -1,9 +1,9 @@
 import { todoController } from '@/server/controller';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = (request: NextApiRequest, response: NextApiResponse) => {
+const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method === 'DELETE') {
-    todoController.deleteById(request, response);
+    await todoController.deleteById(request, response);
     return;
   }
   response.status(405).json({

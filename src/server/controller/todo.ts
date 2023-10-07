@@ -23,7 +23,7 @@ const create = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 };
 
-const get = (req: NextApiRequest, res: NextApiResponse) => {
+const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query;
   const page = Number(query.page);
   const limit = Number(query.limit);
@@ -43,7 +43,7 @@ const get = (req: NextApiRequest, res: NextApiResponse) => {
     });
     return;
   }
-  const output = todoRepository.get({
+  const output = await todoRepository.get({
     limit,
     page,
   });

@@ -13,13 +13,18 @@
     "lint:fix": "yarn lint --fix",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test": "start-server-and-test dev http://localhost:3000 cy:run"
+    "test": "start-server-and-test dev http://localhost:3000 cy:run",
+    "prisma-migrade-dev": "prisma migrate dev --name init",
+    "prisma:seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.4.9",
+    "@types/node": "^20.8.3",
     "@types/react": "18.2.20",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
@@ -37,13 +42,16 @@
     "eslint-plugin-react": "^7.33.2",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
-    "start-server-and-test": "^2.0.1"
+    "start-server-and-test": "^2.0.1",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
+    "@prisma/client": "5.4.1",
     "next": "^13.4.19",
+    "prisma": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "uuid": "^9.0.0",
     "zod": "^3.22.2"
   }
