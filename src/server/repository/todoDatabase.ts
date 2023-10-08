@@ -1,14 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import { HttpNotFoundError } from '../infra';
+import { Todo, TodoSchema } from '../schema';
 
 const prisma = new PrismaClient();
 
-interface Todo {
-  id: string;
-  content: string;
-  date: Date;
-  done: boolean;
-}
+// interface Todo {
+//   id: string;
+//   content: string;
+//   date: Date;
+//   done: boolean;
+// }
 
 interface TodoRepositoryGetParams {
   page: number;
@@ -27,6 +28,11 @@ const get = async ({
     skip: (page - 1) * limit,
     take: limit,
   });
+
+  const parsedTodos = TodoSchema.array().safeParse(allTodos);
+  if (!parsedTodos.success) {
+    throw parsedTodos.error;
+  }
 
   return {
     total: allTodos.length,
