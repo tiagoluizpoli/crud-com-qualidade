@@ -7,7 +7,7 @@
     "start:crud": "npx ts-node ./core/crud.ts",
     "dev:crud": "nodemon --ext ts,tsx --exec 'yarn start'",
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint './**/*.{jsx,jsx,ts,tsx}'",
     "lint:fix": "yarn lint --fix",
