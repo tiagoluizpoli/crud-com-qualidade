@@ -120,42 +120,61 @@ const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
-const deleteById = async (req: NextApiRequest, res: NextApiResponse) => {
+const deleteById = async (req: Request, id: string) => {
+  const query = {
+    todoId: id,
+  };
   const QuerySchema = z.object({
-    id: z.string().uuid().nonempty(),
+    todoId: z.string().uuid(),
   });
 
   // TODO Validate query schema
-  const parsedQuery = QuerySchema.safeParse(req.query);
+  const parsedQuery = QuerySchema.safeParse(query);
   if (!parsedQuery.success) {
-    return res.status(400).json({
-      error: {
-        message: 'you must provide a valid id',
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: 'you must provide a valid id',
+        },
+      }),
+      {
+        status: 400,
       },
-    });
+    );
   }
 
-  const { id } = parsedQuery.data;
+  const { todoId } = parsedQuery.data;
 
   try {
-    await todoRepository.deleteById(id as string);
-    res.status(204).end();
+    await todoRepository.deleteById(todoId as string);
+    return new Response(undefined, {
+      status: 204,
+    });
   } catch (error) {
     if (error instanceof HttpNotFoundError) {
-      res.status(error.status).json({
-        error: {
-          cause: error.cause,
-          name: error.name,
-          message: error.message,
+      return new Response(
+        JSON.stringify({
+          error: {
+            cause: error.cause,
+            name: error.name,
+            message: error.message,
+          },
+        }),
+        {
+          status: error.status || 400,
         },
-      });
-      return;
+      );
     }
-    res.status(500).json({
-      error: {
-        message: `Internal server error`,
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: `Internal server error`,
+        },
+      }),
+      {
+        status: 500,
       },
-    });
+    );
   }
 };
 export const todoController = {
