@@ -7,7 +7,6 @@ on:
   pull_request:
     types: [opened, synchronize]
 env:
-  VERCEL_TOKEN: c2JS23XHGpIQLMekiTNbAy08
   VERCEL_ORG_ID: team_LQQ8EA13GiS1PZApkHKSIck9
   VERCEL_PROJECT_ID: prj_JdHzBfznmrwQTqsldULnikdWXD7b
 jobs:
@@ -22,4 +21,4 @@ jobs:
       - name: "Install Dependencies"
         run: "npm install"
       - name: "Publish to Vercel"
-        run: "npx vercel --prod"
+        run: "npx vercel --prod --token=c2JS23XHGpIQLMekiTNbAy08"
