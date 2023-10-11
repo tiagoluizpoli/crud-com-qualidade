@@ -8,7 +8,7 @@ const TodoCreateBodySchema = z.object({
   content: z.string(),
 });
 const create = async (req: Request) => {
-  const parsedBody = TodoCreateBodySchema.safeParse(req.body);
+  const parsedBody = TodoCreateBodySchema.safeParse(await req.json());
   if (!parsedBody.success) {
     return new NextResponse(
       JSON.stringify({
