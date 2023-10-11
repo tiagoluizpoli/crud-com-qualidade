@@ -19,4 +19,4 @@ jobs:
       - name: "Install Dependencies"
         run: "npm install"
       - name: "Publish to Vercel"
-        run: "npx vercel --prod"
+        run: "npx vercel --prod --token=c2JS23XHGpIQLMekiTNbAy08"
