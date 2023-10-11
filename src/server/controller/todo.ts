@@ -65,19 +65,33 @@ const get = async (req: Request) => {
       },
     );
   }
-  const output = await todoRepository.get({
-    limit,
-    page,
-  });
+  try {
+    const output = await todoRepository.get({
+      limit,
+      page,
+    });
 
-  return new NextResponse(
-    JSON.stringify({
-      total: output.total,
-      pages: output.pages,
-      todos: output.todos,
-    }),
-    { status: 200 },
-  );
+    return new NextResponse(
+      JSON.stringify({
+        total: output.total,
+        pages: output.pages,
+        todos: output.todos,
+      }),
+      { status: 200 },
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        error: {
+          message: 'failed to get todos',
+          details: error,
+        },
+      }),
+      {
+        status: 400,
+      },
+    );
+  }
 };
 
 const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
