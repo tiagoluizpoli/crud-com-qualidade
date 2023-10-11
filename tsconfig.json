@@ -26,6 +26,9 @@
       "@/server/*": [
         "src/server/*"
       ],
+      "@/lib/*": [
+        "lib/*"
+      ],
       "@/db-crud-todo/*": [
         "core/*"
       ]

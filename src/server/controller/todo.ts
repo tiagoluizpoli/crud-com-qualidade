@@ -2,53 +2,96 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { todoRepository } from '../repository';
 import { z } from 'zod';
 import { HttpNotFoundError } from '../infra';
+import { NextResponse } from 'next/server';
 
 const TodoCreateBodySchema = z.object({
   content: z.string(),
 });
-const create = async (req: NextApiRequest, res: NextApiResponse) => {
-  const parsedBody = TodoCreateBodySchema.safeParse(req.body);
+const create = async (req: Request) => {
+  const parsedBody = TodoCreateBodySchema.safeParse(await req.json());
   if (!parsedBody.success) {
-    res.status(400).json({
-      message: 'an error has occurred',
-      error: parsedBody.error,
-    });
-    return;
+    return new NextResponse(
+      JSON.stringify({
+        message: 'an error has occurred',
+        error: parsedBody.error,
+      }),
+      {
+        status: 400,
+      },
+    );
   }
   const createdTodo = await todoRepository.createContent(
     parsedBody.data.content,
   );
-  res.status(201).json({
-    todo: createdTodo,
-  });
+  return new NextResponse(
+    JSON.stringify({
+      todo: createdTodo,
+    }),
+    {
+      status: 201,
+    },
+  );
 };
 
-const get = async (req: NextApiRequest, res: NextApiResponse) => {
-  const query = req.query;
+const get = async (req: Request) => {
+  const { searchParams } = new URL(req.url);
+  const query = {
+    page: searchParams.get('page'),
+    limit: searchParams.get('limit'),
+  };
   const page = Number(query.page);
   const limit = Number(query.limit);
   if (query.page && isNaN(page)) {
-    res.status(400).json({
-      error: {
-        message: '`Page` must be a number',
+    return new NextResponse(
+      JSON.stringify({
+        error: {
+          message: '`Page` must be a number',
+        },
+      }),
+      {
+        status: 400,
       },
-    });
-    return;
+    );
   }
   if (query.limit && isNaN(limit)) {
-    res.status(400).json({
-      error: {
-        message: '`Limit` must be a number',
+    return new NextResponse(
+      JSON.stringify({
+        error: {
+          message: '`Limit` must be a number',
+        },
+      }),
+      {
+        status: 400,
       },
-    });
-    return;
+    );
   }
-  const output = await todoRepository.get({
-    limit,
-    page,
-  });
+  try {
+    const output = await todoRepository.get({
+      limit,
+      page,
+    });
 
-  res.status(200).json(output);
+    return new NextResponse(
+      JSON.stringify({
+        total: output.total,
+        pages: output.pages,
+        todos: output.todos,
+      }),
+      { status: 200 },
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        error: {
+          message: 'failed to get todos',
+          details: error,
+        },
+      }),
+      {
+        status: 400,
+      },
+    );
+  }
 };
 
 const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
