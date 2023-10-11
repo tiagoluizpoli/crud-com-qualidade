@@ -23,12 +23,13 @@ function HomePage() {
   const homeTodos = todoController.filterByContent<HomeTodo>(search, todos);
 
   const hasMorePages = totalPages > page;
+
   const hasNoTodos = homeTodos.length === 0 && !isLoading;
 
   useEffect(() => {
     if (!initialLoadCompleate.current) {
       todoController
-        .get({ page })
+        .get({ page, limit: 5 })
         .then(({ todos, pages }) => {
           setTodos(todos);
           setTotalPages(pages);

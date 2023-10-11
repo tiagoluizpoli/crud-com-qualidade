@@ -5,6 +5,7 @@ import { Todo } from '@/ui/schema';
 
 interface TodoControllerGetParams {
   page: number;
+  limit?: number;
 }
 interface TodoControllerCreateParams {
   content: string;
@@ -33,8 +34,8 @@ const create = async ({
     });
 };
 
-async function get({ page }: TodoControllerGetParams) {
-  return todoRepository.get({ page: page || 1, limit: 5 });
+async function get({ page, limit }: TodoControllerGetParams) {
+  return todoRepository.get({ page: page || 1, limit: limit || 5 });
 }
 
 function filterByContent<Todo>(

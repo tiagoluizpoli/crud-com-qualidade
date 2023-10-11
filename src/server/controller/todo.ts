@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { todoRepository } from '../repository';
 import { z } from 'zod';
 import { HttpNotFoundError } from '../infra';
@@ -94,29 +93,35 @@ const get = async (req: Request) => {
   }
 };
 
-const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
-  const todoId = req.query.id;
+const toggleDone = async (req: Request, todoId: string) => {
   if (!todoId || typeof todoId !== 'string') {
-    res.status(400).json({
-      error: {
-        message: 'you must provide a string id',
-      },
-    });
-    return;
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: 'you must provide a string id',
+        },
+      }),
+      { status: 400 },
+    );
   }
   try {
     const updatedTodo = await todoRepository.toggleDone(todoId);
-
-    res.status(200).json({
-      todo: updatedTodo,
-    });
+    return new Response(
+      JSON.stringify({
+        todo: updatedTodo,
+      }),
+      { status: 200 },
+    );
   } catch (error) {
     if (error instanceof Error) {
-      res.status(404).json({
-        error: {
-          message: error.message,
-        },
-      });
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: error.message,
+          },
+        }),
+        { status: 404 },
+      );
     }
   }
 };

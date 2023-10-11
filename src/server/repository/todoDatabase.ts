@@ -22,6 +22,7 @@ const get = async ({
   page,
   limit,
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> => {
+  const count = await prisma.todo.count();
   const allTodos = await prisma.todo.findMany({
     skip: (page - 1) * limit,
     take: limit,
@@ -31,11 +32,13 @@ const get = async ({
     throw parsedTodos.error;
   }
 
-  return {
-    total: allTodos.length,
-    pages: Math.ceil(allTodos.length / limit),
-    todos: allTodos,
+  const resp = {
+    total: parsedTodos.data.length,
+    pages: Math.ceil(count / limit),
+    todos: parsedTodos.data,
   };
+
+  return resp;
 };
 
 const createContent = async (content: string): Promise<Todo> => {
